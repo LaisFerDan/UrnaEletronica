@@ -24,7 +24,7 @@ namespace UrnaEletronica.Tests
         }
 
         [Fact]
-        public void Urna_ConstrutorIncorreto_RetornaResultado()
+        public void Urna_ConstrutorIncorreto_RetornaResultadoNaoEquivalente()
         {
             //Arrange
             var urna = new Urna();
