@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UrnaEletronica
+﻿namespace UrnaEletronica
 {
     public class Urna
     {
@@ -53,7 +47,10 @@ namespace UrnaEletronica
 
         public string MostrarResultadoEleicao()
         {
-            var vencedor = Candidatos.OrderBy(c => c.RetornarVotos()).ThenBy(c => c.Nome).FirstOrDefault();
+            var vencedor = Candidatos.OrderByDescending(c => c.RetornarVotos()).ThenBy(c => c.Nome).FirstOrDefault();
+            
+            if (string.IsNullOrEmpty(vencedor.Nome))
+                throw new Exception("O vencedor não pode ser nulo ou vazio.");
 
             return $"Nome vencedor: {vencedor.Nome}. Votos: {vencedor.Votos}";
         }

@@ -83,6 +83,7 @@ namespace UrnaEletronica.Tests
         [InlineData("Ciclana")]
         [InlineData("Fulano")]
         [InlineData("")]
+        [InlineData(null)]
         public void ValidarNomeDoCandidato_NomeIncorreto_RetornaExcecao(string nome)
         {
             //Arrange + Act

@@ -1,9 +1,4 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UrnaEletronica.Tests
 {
@@ -14,7 +9,7 @@ namespace UrnaEletronica.Tests
         {
             //Arrange
             var urna = new Urna();
-            
+
             //Act
             var retorno = new Urna()
             {
@@ -26,6 +21,25 @@ namespace UrnaEletronica.Tests
 
             //Assert
             retorno.Should().BeEquivalentTo(urna);
+        }
+
+        [Fact]
+        public void Urna_ConstrutorIncorreto_RetornaResultado()
+        {
+            //Arrange
+            var urna = new Urna();
+
+            //Act
+            var retorno = new Urna()
+            {
+                VencedorEleicao = "ABC",
+                VotosVencedor = 1,
+                Candidatos = new List<Candidato>(),
+                EleicaoAtiva = true
+            };
+
+            //Act + Assert
+            retorno.Should().NotBeEquivalentTo(urna);
         }
 
         [Fact]
@@ -43,7 +57,7 @@ namespace UrnaEletronica.Tests
         }
 
         [Fact]
-        public void IniciarEncerrarEleicao_EncerradoCorretamente_RetornaVerdadeiro()
+        public void IniciarEncerrarEleicao_IniciadoIncorretamente_RetornaFalso()
         {
             //Arrange
             var urna = new Urna();
@@ -55,14 +69,164 @@ namespace UrnaEletronica.Tests
             //Assert
             urna.EleicaoAtiva.Should().Be(false);
         }
-         // - Validar se, ao cadastrar um candidato, o última candidato na lista é o mesmo que foi cadastrado
-         public void CadastrarCandidato_UltimoDaListaCadastrado_RetornarCandidato()
-        {
 
+        [Fact]
+        public void IniciarEncerrarEleicao_EncerradoCorretamente_RetornaFalso()
+        {
+            //Arrange
+            var urna = new Urna();
+            urna.EleicaoAtiva = true;
+
+            //Act
+            urna.IniciarEncerrarEleicao();
+
+            //Assert
+            urna.EleicaoAtiva.Should().Be(false);
         }
-         // - Validar o método de votação quando é informado um candidato não cadastrado
-         // - Validar o método de votação quando é informado um candidato cadastrado
-         // - Validar o resultado da eleição
-         
+
+        [Fact]
+        public void IniciarEncerrarEleicao_EncerradoIncorretamente_RetornaVerdadeiro()
+        {
+            //Arrange
+            var urna = new Urna();
+            urna.EleicaoAtiva = false;
+
+            //Act
+            urna.IniciarEncerrarEleicao();
+
+            //Assert
+            urna.EleicaoAtiva.Should().Be(true);
+        }
+
+        [Theory]
+        [InlineData("Fulana")]
+        [InlineData("Jurema")]
+        [InlineData("Ciclano")]
+        public void CadastrarCandidato_UltimoDaListaCadastrado_RetornaVerdadeiro(string nome)
+        {
+            //Arrange
+            var urna = new Urna();
+
+            //Act
+            var retorno = urna.CadastrarCandidato(nome);
+
+            //Assert
+            retorno.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void CadastrarCandidato_NaoFoiUltimoDaListaCadastrado_RetornaFalso(string nome)
+        {
+            //Arrange
+            var urna = new Urna();
+
+            //Act
+            var retorno = urna.CadastrarCandidato(nome);
+
+            //Assert
+            retorno.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("Fulana")]
+        public void Votar_CandidatoNaoCadastrado_RetornaFalso(string nome)
+        {
+            //Arrange
+            var urna = new Urna();
+
+            //Act
+            urna.CadastrarCandidato("ABC");
+            var retorno = urna.Votar(nome);
+
+            //Assert
+            retorno.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData("Fulana")]
+        [InlineData("CICLANO")]
+        [InlineData("jurema")]
+        public void Votar_CandidatoCadastrado_RetornaVerdadeiro(string nome)
+        {
+            //Arrange
+            var urna = new Urna();
+
+            //Act
+            urna.CadastrarCandidato(nome);
+            var retorno = urna.Votar(nome);
+
+            //Assert
+            retorno.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("5789")]
+        [InlineData("Fulana")]
+        public void MostrarResultadoEleicao_ValidarResultadoCorreto_RetornaQuePossui(string retorno)
+        {
+            //Arrange
+            var urna = new Urna()
+            {
+                Candidatos = new List<Candidato>() 
+                { 
+                    new() { Nome = "Fulana", Votos = 5789 },
+                    new() { Nome = "Jurema", Votos = 10 }
+                }
+            };
+
+            //Act
+            var resultado = urna.MostrarResultadoEleicao();
+
+            //Assert
+            Assert.Contains(retorno, resultado);
+        }
+
+        [Theory]
+        [InlineData("Jumara")]
+        [InlineData("10")]
+        public void MostrarResultadoEleicao_ValidarResultadoIncorreto_RetornaQueNaoPossui(string retorno)
+        {
+            //Arrange
+            var urna = new Urna()
+            {
+                Candidatos = new List<Candidato>()
+                {
+                    new() { Nome = "Fulana", Votos = 5789 },
+                    new() { Nome = "Jurema", Votos = 10 }
+                }
+            };
+
+            //Act
+            var resultado = urna.MostrarResultadoEleicao();
+
+            //Assert
+            Assert.DoesNotContain(retorno, resultado);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void MostrarResultadoEleicao_ValidarResultadoVazioOuNulo_RetornaExcecao(string retorno)
+        {
+            //Arrange
+            var urna = new Urna()
+            {
+                Candidatos = new List<Candidato>()
+                {
+                    new() { Nome = "Fulana", Votos = 5789 },
+                    new() { Nome = "Jurema", Votos = 10 },
+                    new() { Nome = retorno, Votos = 10000000 }
+                }
+            };
+
+            //Act
+            Action act = () => urna.MostrarResultadoEleicao();
+
+            //Assert
+            act.Should().Throw<Exception>().WithMessage("O vencedor não pode ser nulo ou vazio.");
+        }
     }
 }
