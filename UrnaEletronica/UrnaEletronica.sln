@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrnaEletronica", "UrnaEletronica.csproj", "{0685C7AF-50E8-4785-88BF-73A3B0EE9D07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrnaEletronica.Tests", "..\UrnaEletronica.Tests\UrnaEletronica.Tests.csproj", "{BB5CE6FD-59E2-42C9-8960-05EC8CB5AC77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0685C7AF-50E8-4785-88BF-73A3B0EE9D07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0685C7AF-50E8-4785-88BF-73A3B0EE9D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0685C7AF-50E8-4785-88BF-73A3B0EE9D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0685C7AF-50E8-4785-88BF-73A3B0EE9D07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB5CE6FD-59E2-42C9-8960-05EC8CB5AC77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5CE6FD-59E2-42C9-8960-05EC8CB5AC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5CE6FD-59E2-42C9-8960-05EC8CB5AC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5CE6FD-59E2-42C9-8960-05EC8CB5AC77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2219EC50-6251-4C0C-AD2E-F5DC43609FB7}
+	EndGlobalSection
+EndGlobal
