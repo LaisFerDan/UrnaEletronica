@@ -105,7 +105,14 @@ namespace UrnaEletronica.Tests
         public void CadastrarCandidato_UltimoDaListaCadastrado_RetornaVerdadeiro(string nome)
         {
             //Arrange
-            var urna = new Urna();
+            var urna = new Urna()
+            {
+                Candidatos = new List<Candidato>()
+                {
+                    new() { Nome = "Sonia", Votos = 5789 },
+                    new() { Nome = "Alberto", Votos = 10 }
+                }
+            };
 
             //Act
             var retorno = urna.CadastrarCandidato(nome);
@@ -117,7 +124,7 @@ namespace UrnaEletronica.Tests
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public void CadastrarCandidato_NaoFoiUltimoDaListaCadastrado_RetornaFalso(string nome)
+        public void CadastrarCandidato_CadastroNuloOuVazio_RetornaFalso(string nome)
         {
             //Arrange
             var urna = new Urna();
